@@ -1,0 +1,21 @@
+# Build artifacts
+bin/
+TIMER_LIB/obj/
+*.o
+*.exec
+
+# SLURM error files (not useful to track)
+outputs/*.err
+outputs/*.out
+
+# Dataset (large; download via scripts/download_data.sh)
+Data/
+
+# Generated plots
+assets/
+
+# Parsed benchmark CSV (derived from outputs/)
+results.csv
+
+# macOS
+.DS_Store

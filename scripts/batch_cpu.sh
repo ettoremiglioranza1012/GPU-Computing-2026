@@ -20,13 +20,13 @@ KERNELS=(spmv_coo_naive spmv_coo_opt)
 
 # CPU allowlist: only matrices with NNZ < ~10M to stay within 5-min wall limit.
 # Large matrices (bone010 ~36M, ldoor ~42M, rajat31 ~20M, hollywood-2009 ~112M,
-# eu-2005 ~16M) are GPU-only and excluded here.
+# eu-2005 ~16M, nlpkkt80 ~28M) are GPU-only and excluded here.
+# Matches the Chu et al. HPDC '23 matrix set (required reference [2]).
 CPU_MATRICES=(
-    "1138_bus"
-    "bcsstk17"
-    "web-Google"
     "webbase-1M"
     "Rucci1"
+    "ASIC_680ks"
+    "boyd2"
 )
 
 mapfile -t MATRICES < <(

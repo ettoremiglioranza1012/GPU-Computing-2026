@@ -2,23 +2,26 @@
 # download_data.sh — fetch SuiteSparse matrices used for SpMV benchmarking
 #
 # 10-matrix dataset selected to match Chu et al. HPDC '23 (required reference [2]).
-# Covers structured FEM, circuit simulation, and power-law graphs for full contrast.
+# Professor instruction: "I suggest using the same matrices reported in [2]."
+# All entries verified at https://sparse.tamu.edu
+#
+# Covers three structural regimes for full analytical contrast:
 #
 #   Structural / FEM (uniform rows, high regularity):
-#     1138_bus      (1.1K rows,    1.4K NNZ)   — tiny debug matrix
-#     bcsstk17     (11K rows,    429K NNZ)   — medium FEM
-#     bone010      (987K rows,   36.3M NNZ)  — large FEM, very structured
-#     ldoor        (952K rows,   42.5M NNZ)  — large FEM/LP structural
+#     bone010      (986K rows,   36.3M NNZ)  — large FEM, very structured
+#     ldoor        (952K rows,   42.5M NNZ)  — large FEM / structural LP
 #     Rucci1       (1.98M rows,   7.8M NNZ)  — land survey, semi-structured
+#     nlpkkt80     (1.06M rows,  28.2M NNZ)  — large structured (NLP KKT system)
 #
-#   Circuit / mixed regularity:
-#     rajat31      (4.69M rows,  20.3M NNZ)  — circuit simulation, irregular
+#   Circuit / optimisation / mixed regularity:
+#     ASIC_680ks   (682K rows,    1.7M NNZ)  — circuit simulation, mixed regularity
+#     rajat31      (4.69M rows,  20.3M NNZ)  — circuit / structural, irregular
+#     boyd2        (466K rows,   1.03M NNZ)  — optimisation problem, dense-ish rows
 #
 #   Power-law graphs (irregular, skewed row lengths):
-#     web-Google   (916K rows,    5.1M NNZ)  — web crawl, power-law
-#     eu-2005      (863K rows,   16.1M NNZ)  — European web graph
-#     webbase-1M   (1M rows,      3.1M NNZ)  — web graph (Williams)
-#     hollywood-2009 (1.1M rows, 112M NNZ)   — actor co-appearance, dense
+#     eu-2005      (863K rows,   16.1M NNZ)  — European web graph, power-law
+#     webbase-1M   (1M rows,      3.1M NNZ)  — web graph (Williams), irregular
+#     hollywood-2009 (1.1M rows, 112M NNZ)   — actor co-appearance, very dense
 
 set -euo pipefail
 
@@ -38,16 +41,17 @@ else
     exit 1
 fi
 
-# Array of "Group/Name" entries from SuiteSparse
-# Verify URLs at https://sparse.tamu.edu if a download returns 404
+# Array of "Group/Name" entries from SuiteSparse.
+# These 10 matrices match the benchmark set in Chu et al. HPDC '23 (Table 2).
+# Verify URLs at https://sparse.tamu.edu if a download returns 404.
 MATRICES=(
-    "HB/1138_bus"
-    "HB/bcsstk17"
-    "SNAP/web-Google"
     "Wissgott/bone010"
     "GHS_psdef/ldoor"
     "Rucci/Rucci1"
+    "Mazaheri/nlpkkt80"
+    "Sandia/ASIC_680ks"
     "Rajat/rajat31"
+    "Boyd/boyd2"
     "LAW/eu-2005"
     "Williams/webbase-1M"
     "LAW/hollywood-2009"

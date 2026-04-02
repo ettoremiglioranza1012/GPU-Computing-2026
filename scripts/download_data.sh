@@ -3,9 +3,9 @@
 #
 # 10-matrix dataset selected to match Chu et al. HPDC '23 (required reference [2]).
 # Professor instruction: "I suggest using the same matrices reported in [2]."
-# All entries verified at https://sparse.tamu.edu
 #
-# Covers three structural regimes for full analytical contrast:
+# Group/Name paths verified at https://sparse.tamu.edu (April 2026).
+# Actual tarballs are served from the Heroku CDN (no direct download from sparse.tamu.edu).
 #
 #   Structural / FEM (uniform rows, high regularity):
 #     bone010      (986K rows,   36.3M NNZ)  — large FEM, very structured
@@ -27,7 +27,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DATA_DIR="$SCRIPT_DIR/../Data"
-BASE_URL="https://sparse.tamu.edu/MM"
+BASE_URL="https://suitesparse-collection-website.herokuapp.com/MM"
 
 mkdir -p "$DATA_DIR"
 
@@ -41,17 +41,16 @@ else
     exit 1
 fi
 
-# Array of "Group/Name" entries from SuiteSparse.
-# These 10 matrices match the benchmark set in Chu et al. HPDC '23 (Table 2).
-# Verify URLs at https://sparse.tamu.edu if a download returns 404.
+# Array of "Group/Name" entries — all verified at https://sparse.tamu.edu (April 2026).
+# These 10 matrices match the benchmark set in Chu et al. HPDC '23.
 MATRICES=(
-    "Wissgott/bone010"
+    "Oberwolfach/bone010"
     "GHS_psdef/ldoor"
     "Rucci/Rucci1"
-    "Mazaheri/nlpkkt80"
+    "Schenk/nlpkkt80"
     "Sandia/ASIC_680ks"
     "Rajat/rajat31"
-    "Boyd/boyd2"
+    "GHS_indef/boyd2"
     "LAW/eu-2005"
     "Williams/webbase-1M"
     "LAW/hollywood-2009"

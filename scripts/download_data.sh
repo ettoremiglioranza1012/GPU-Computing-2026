@@ -27,7 +27,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DATA_DIR="$SCRIPT_DIR/../Data"
-BASE_URL="https://suitesparse-collection-website.herokuapp.com/MM"
+BASE_URL="https://sparse.tamu.edu/MM"
 
 mkdir -p "$DATA_DIR"
 

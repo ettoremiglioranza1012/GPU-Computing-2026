@@ -24,13 +24,13 @@
  * row result once (no repeated random writes to y).
  */
 static void spmv_coo_opt(const int *Arows, const int *Acols,
-                         const double *Avals, int nnz,
-                         const double *x, double *y)
+                         const float *Avals, int nnz,
+                         const float *x, float *y)
 {
     int i = 0;
     while (i < nnz) {
         int row = Arows[i];
-        double sum0 = 0.0, sum1 = 0.0, sum2 = 0.0, sum3 = 0.0;
+        float sum0 = 0.0f, sum1 = 0.0f, sum2 = 0.0f, sum3 = 0.0f;
 
         while (i < nnz && Arows[i] == row) {
             if (i + 3 < nnz && Arows[i+3] == row) {
@@ -50,8 +50,8 @@ static void spmv_coo_opt(const int *Arows, const int *Acols,
 
 /* Naive reference kernel for correctness check */
 static void spmv_coo_naive_ref(const int *Arows, const int *Acols,
-                               const double *Avals, int nnz,
-                               const double *x, double *y)
+                               const float *Avals, int nnz,
+                               const float *x, float *y)
 {
     for (int i = 0; i < nnz; i++)
         y[Arows[i]] += Avals[i] * x[Acols[i]];
@@ -65,19 +65,20 @@ int main(int argc, char *argv[]) {
 
     /* --- Load matrix --- */
     int rows, cols, nnz;
-    int    *Arows, *Acols;
-    double *Avals;
+    int   *Arows, *Acols;
+    float *Avals;
     mtx_read_coo(argv[1], &rows, &cols, &nnz, &Arows, &Acols, &Avals);
 
-    /* --- Dense input vector x = 1.0 --- */
-    double *x = (double *)malloc((size_t)cols * sizeof(double));
-    double *y     = (double *)malloc((size_t)rows * sizeof(double));
-    double *y_ref = (double *)malloc((size_t)rows * sizeof(double));
+    /* --- Dense input vector: fixed-seed random (reproducible) --- */
+    float *x     = (float *)malloc((size_t)cols * sizeof(float));
+    float *y     = (float *)malloc((size_t)rows * sizeof(float));
+    float *y_ref = (float *)malloc((size_t)rows * sizeof(float));
     if (!x || !y || !y_ref) { fprintf(stderr, "malloc failed\n"); return 1; }
-    for (int i = 0; i < cols; i++) x[i] = 1.0;
+    srand(42);
+    for (int i = 0; i < cols; i++) x[i] = (float)rand() / (float)RAND_MAX;
 
     /* --- Reference result from naive kernel --- */
-    memset(y_ref, 0, (size_t)rows * sizeof(double));
+    memset(y_ref, 0, (size_t)rows * sizeof(float));
     spmv_coo_naive_ref(Arows, Acols, Avals, nnz, x, y_ref);
 
     /* --- Benchmark loop --- */
@@ -85,7 +86,7 @@ int main(int argc, char *argv[]) {
     TIMER_DEF(0);
 
     for (int iter = -WARMUP; iter < NITER; iter++) {
-        memset(y, 0, (size_t)rows * sizeof(double));
+        memset(y, 0, (size_t)rows * sizeof(float));
 
         TIMER_START(0);
         spmv_coo_opt(Arows, Acols, Avals, nnz, x, y);
@@ -98,13 +99,13 @@ int main(int argc, char *argv[]) {
          * Tolerance is relative to the largest |y_ref| entry so that rows
          * whose sum cancels to near-zero get the same slack as the largest row. */
         if (iter == -WARMUP) {
-            double y_max = 0.0;
+            float y_max = 0.0f;
             for (int i = 0; i < rows; i++)
-                if (fabs(y_ref[i]) > y_max) y_max = fabs(y_ref[i]);
-            double tol = 1e-9 * y_max + 1e-14;
+                if (fabsf(y_ref[i]) > y_max) y_max = fabsf(y_ref[i]);
+            float tol = 1e-5f * y_max + 1e-7f;
             int ok = 1;
             for (int i = 0; i < rows && ok; i++)
-                if (fabs(y[i] - y_ref[i]) > tol) ok = 0;
+                if (fabsf(y[i] - y_ref[i]) > tol) ok = 0;
             fprintf(stdout, "Correctness check: %s\n", ok ? "PASSED" : "FAILED");
             if (!ok) fprintf(stderr, "Correctness check: FAILED\n");
         }
@@ -124,9 +125,9 @@ int main(int argc, char *argv[]) {
     free(seen);
 
     /* Bandwidth: COO arrays + unique x reads + y write */
-    double bytes = (double)nnz         * (2 * sizeof(int) + sizeof(double))
-                 + (double)unique_cols * sizeof(double)
-                 + (double)rows        * sizeof(double);
+    double bytes = (double)nnz         * (2 * sizeof(int) + sizeof(float))
+                 + (double)unique_cols * sizeof(float)
+                 + (double)rows        * sizeof(float);
     double bandwidth = bytes / a_mean / 1.e9;
     double gflops    = 2.0 * nnz / a_mean / 1.e9;
 

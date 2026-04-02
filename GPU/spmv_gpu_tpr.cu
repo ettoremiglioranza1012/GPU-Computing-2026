@@ -25,11 +25,11 @@
 
 /* ── Kernel ──────────────────────────────────────────────────────────────── */
 
-__global__ void spmv_tpr(const int    * __restrict__ Arows,
-                          const int    * __restrict__ Acols,
-                          const double * __restrict__ Avals,
-                          const double * __restrict__ x,
-                          double *y, int rows, int nnz)
+__global__ void spmv_tpr(const int   * __restrict__ Arows,
+                          const int   * __restrict__ Acols,
+                          const float * __restrict__ Avals,
+                          const float * __restrict__ x,
+                          float *y, int rows, int nnz)
 {
     int row = blockIdx.x * blockDim.x + threadIdx.x;
     if (row >= rows) return;
@@ -46,7 +46,7 @@ __global__ void spmv_tpr(const int    * __restrict__ Arows,
 
     /* Sequential accumulation over all NNZ in this row.
      * Empty rows (start == nnz or Arows[start] != row) yield sum = 0. */
-    double sum = 0.0;
+    float sum = 0.0f;
     for (int i = start; i < nnz && Arows[i] == row; i++)
         sum += Avals[i] * __ldg(&x[Acols[i]]);  /* improvement C */
 
@@ -80,16 +80,17 @@ int main(int argc, char *argv[])
 
     /* --- Load matrix into host COO arrays --- */
     int rows, cols, nnz;
-    int    *h_Arows, *h_Acols;
-    double *h_Avals;
+    int   *h_Arows, *h_Acols;
+    float *h_Avals;
     mtx_read_coo(argv[1], &rows, &cols, &nnz, &h_Arows, &h_Acols, &h_Avals);
 
-    /* --- Host vectors --- */
-    double *h_x     = (double *)malloc((size_t)cols * sizeof(double));
-    double *h_y     = (double *)malloc((size_t)rows * sizeof(double));
-    double *h_y_ref = (double *)calloc((size_t)rows,  sizeof(double));
+    /* --- Host vectors: fixed-seed random (reproducible) --- */
+    float *h_x     = (float *)malloc((size_t)cols * sizeof(float));
+    float *h_y     = (float *)malloc((size_t)rows * sizeof(float));
+    float *h_y_ref = (float *)calloc((size_t)rows,  sizeof(float));
     if (!h_x || !h_y || !h_y_ref) { fprintf(stderr, "malloc failed\n"); return 1; }
-    for (int i = 0; i < cols; i++) h_x[i] = 1.0;
+    srand(42);
+    for (int i = 0; i < cols; i++) h_x[i] = (float)rand() / (float)RAND_MAX;
 
     /* --- CPU naive reference for correctness check (improvement B) --- */
     for (int i = 0; i < nnz; i++)
@@ -103,18 +104,18 @@ int main(int argc, char *argv[])
     free(seen);
 
     /* --- Allocate device memory (improvement A) --- */
-    int    *d_Arows, *d_Acols;
-    double *d_Avals, *d_x, *d_y;
+    int   *d_Arows, *d_Acols;
+    float *d_Avals, *d_x, *d_y;
     cudaMalloc((void **)&d_Arows, (size_t)nnz  * sizeof(int));
     cudaMalloc((void **)&d_Acols, (size_t)nnz  * sizeof(int));
-    cudaMalloc((void **)&d_Avals, (size_t)nnz  * sizeof(double));
-    cudaMalloc((void **)&d_x,     (size_t)cols * sizeof(double));
-    cudaMalloc((void **)&d_y,     (size_t)rows * sizeof(double));
+    cudaMalloc((void **)&d_Avals, (size_t)nnz  * sizeof(float));
+    cudaMalloc((void **)&d_x,     (size_t)cols * sizeof(float));
+    cudaMalloc((void **)&d_y,     (size_t)rows * sizeof(float));
 
-    cudaMemcpy(d_Arows, h_Arows, (size_t)nnz  * sizeof(int),    cudaMemcpyHostToDevice);
-    cudaMemcpy(d_Acols, h_Acols, (size_t)nnz  * sizeof(int),    cudaMemcpyHostToDevice);
-    cudaMemcpy(d_Avals, h_Avals, (size_t)nnz  * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_x,     h_x,     (size_t)cols * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_Arows, h_Arows, (size_t)nnz  * sizeof(int),   cudaMemcpyHostToDevice);
+    cudaMemcpy(d_Acols, h_Acols, (size_t)nnz  * sizeof(int),   cudaMemcpyHostToDevice);
+    cudaMemcpy(d_Avals, h_Avals, (size_t)nnz  * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_x,     h_x,     (size_t)cols * sizeof(float), cudaMemcpyHostToDevice);
 
     /* --- Kernel configuration: one thread per row --- */
     int grid = (rows + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
@@ -126,7 +127,7 @@ int main(int argc, char *argv[])
     cudaEventCreate(&ev_stop);
 
     for (int iter = -WARMUP; iter < NITER; iter++) {
-        cudaMemset(d_y, 0, (size_t)rows * sizeof(double));
+        cudaMemset(d_y, 0, (size_t)rows * sizeof(float));
 
         cudaEventRecord(ev_start);
         spmv_tpr<<<grid, THREADS_PER_BLOCK>>>(d_Arows, d_Acols, d_Avals, d_x, d_y, rows, nnz);
@@ -142,23 +143,23 @@ int main(int argc, char *argv[])
     cudaEventDestroy(ev_stop);
 
     /* --- Copy result back and verify (improvement B) --- */
-    cudaMemcpy(h_y, d_y, (size_t)rows * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_y, d_y, (size_t)rows * sizeof(float), cudaMemcpyDeviceToHost);
 
-    double y_max = 0.0;
+    float y_max = 0.0f;
     for (int i = 0; i < rows; i++)
-        if (fabs(h_y_ref[i]) > y_max) y_max = fabs(h_y_ref[i]);
-    double tol = 1e-9 * y_max + 1e-14;
+        if (fabsf(h_y_ref[i]) > y_max) y_max = fabsf(h_y_ref[i]);
+    float tol = 1e-4f * y_max + 1e-6f;
     int ok = 1;
     for (int i = 0; i < rows && ok; i++)
-        if (fabs(h_y[i] - h_y_ref[i]) > tol) ok = 0;
+        if (fabsf(h_y[i] - h_y_ref[i]) > tol) ok = 0;
 
     /* --- Statistics --- */
     double a_mean = arith_mean(timers, NITER);
     double g_mean = geom_mean(timers, NITER);
 
-    double bytes = (double)nnz         * (2 * sizeof(int) + sizeof(double))
-                 + (double)unique_cols * sizeof(double)
-                 + (double)rows        * sizeof(double);
+    double bytes = (double)nnz         * (2 * sizeof(int) + sizeof(float))
+                 + (double)unique_cols * sizeof(float)
+                 + (double)rows        * sizeof(float);
     double bandwidth = bytes / a_mean / 1.0e9;
     double gflops    = 2.0 * nnz / a_mean / 1.0e9;
 

@@ -18,7 +18,23 @@
 REPO_DIR="${REPO_DIR:-${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}}"
 KERNELS=(spmv_coo_naive spmv_coo_opt)
 
-mapfile -t MATRICES < <(find "$REPO_DIR/Data" -name "*.mtx" | sort)
+# CPU allowlist: only matrices with NNZ < ~10M to stay within 5-min wall limit.
+# Large matrices (bone010 ~36M, ldoor ~42M, rajat31 ~20M, hollywood-2009 ~112M,
+# eu-2005 ~16M) are GPU-only and excluded here.
+CPU_MATRICES=(
+    "1138_bus"
+    "bcsstk17"
+    "web-Google"
+    "webbase-1M"
+    "Rucci1"
+)
+
+mapfile -t MATRICES < <(
+    for name in "${CPU_MATRICES[@]}"; do
+        f="$REPO_DIR/Data/$name/$name.mtx"
+        [ -f "$f" ] && echo "$f"
+    done | sort
+)
 
 if [ ${#MATRICES[@]} -eq 0 ]; then
     echo "No matrices found in Data/. Run scripts/download_data.sh first."

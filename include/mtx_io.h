@@ -20,7 +20,7 @@
 #include <ctype.h>
 
 /* Internal struct used only for sorting */
-typedef struct { int r, c; double v; } MtxEntry_;
+typedef struct { int r, c; float v; } MtxEntry_;
 
 static int mtx_entry_cmp_(const void *a, const void *b) {
     const MtxEntry_ *ea = (const MtxEntry_ *)a;
@@ -38,7 +38,7 @@ static int mtx_entry_cmp_(const void *a, const void *b) {
  */
 static void mtx_read_coo(const char *path,
                          int *out_rows, int *out_cols, int *out_nnz,
-                         int **out_row_arr, int **out_col_arr, double **out_val_arr)
+                         int **out_row_arr, int **out_col_arr, float **out_val_arr)
 {
     FILE *fp = fopen(path, "r");
     if (!fp) { perror("mtx_read_coo: fopen"); exit(1); }
@@ -78,12 +78,12 @@ static void mtx_read_coo(const char *path,
         if (!fgets(line, sizeof(line), fp)) break;
 
         int r, c;
-        double v = 1.0;
+        float v = 1.0f;
 
         if (is_pattern)
             sscanf(line, "%d %d", &r, &c);
         else
-            sscanf(line, "%d %d %lf", &r, &c, &v);
+            sscanf(line, "%d %d %f", &r, &c, &v);
 
         r--; c--;  /* 1-indexed → 0-indexed */
 
@@ -105,9 +105,9 @@ static void mtx_read_coo(const char *path,
     qsort(entries, (size_t)count, sizeof(MtxEntry_), mtx_entry_cmp_);
 
     /* Unpack into flat arrays */
-    int    *Arows = (int    *)malloc((size_t)count * sizeof(int));
-    int    *Acols = (int    *)malloc((size_t)count * sizeof(int));
-    double *Avals = (double *)malloc((size_t)count * sizeof(double));
+    int   *Arows = (int   *)malloc((size_t)count * sizeof(int));
+    int   *Acols = (int   *)malloc((size_t)count * sizeof(int));
+    float *Avals = (float *)malloc((size_t)count * sizeof(float));
     if (!Arows || !Acols || !Avals) {
         fprintf(stderr, "mtx_read_coo: malloc failed (count=%d)\n", count);
         exit(1);

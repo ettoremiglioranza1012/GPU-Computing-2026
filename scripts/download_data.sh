@@ -1,13 +1,24 @@
 #!/bin/bash
 # download_data.sh — fetch SuiteSparse matrices used for SpMV benchmarking
 #
-# Matrices chosen to cover:
-#   - Small/debug:        1138_bus      (1138 rows,     1416 NNZ)
-#   - Medium structural:  bcsstk17     (10974 rows,  428650 NNZ)
-#   - Medium power-law:   web-Google   (916428 rows, 5105039 NNZ)  [SNAP group]
-#   - Large power-law:    soc-LiveJournal1 (4847571 rows, 68993773 NNZ) [SNAP]
+# 10-matrix dataset selected to match Chu et al. HPDC '23 (required reference [2]).
+# Covers structured FEM, circuit simulation, and power-law graphs for full contrast.
 #
-# Adjust the list below to add/remove matrices.
+#   Structural / FEM (uniform rows, high regularity):
+#     1138_bus      (1.1K rows,    1.4K NNZ)   — tiny debug matrix
+#     bcsstk17     (11K rows,    429K NNZ)   — medium FEM
+#     bone010      (987K rows,   36.3M NNZ)  — large FEM, very structured
+#     ldoor        (952K rows,   42.5M NNZ)  — large FEM/LP structural
+#     Rucci1       (1.98M rows,   7.8M NNZ)  — land survey, semi-structured
+#
+#   Circuit / mixed regularity:
+#     rajat31      (4.69M rows,  20.3M NNZ)  — circuit simulation, irregular
+#
+#   Power-law graphs (irregular, skewed row lengths):
+#     web-Google   (916K rows,    5.1M NNZ)  — web crawl, power-law
+#     eu-2005      (863K rows,   16.1M NNZ)  — European web graph
+#     webbase-1M   (1M rows,      3.1M NNZ)  — web graph (Williams)
+#     hollywood-2009 (1.1M rows, 112M NNZ)   — actor co-appearance, dense
 
 set -euo pipefail
 
@@ -28,10 +39,18 @@ else
 fi
 
 # Array of "Group/Name" entries from SuiteSparse
+# Verify URLs at https://sparse.tamu.edu if a download returns 404
 MATRICES=(
     "HB/1138_bus"
     "HB/bcsstk17"
     "SNAP/web-Google"
+    "Wissgott/bone010"
+    "GHS_psdef/ldoor"
+    "Rucci/Rucci1"
+    "Rajat/rajat31"
+    "LAW/eu-2005"
+    "Williams/webbase-1M"
+    "LAW/hollywood-2009"
 )
 
 for entry in "${MATRICES[@]}"; do

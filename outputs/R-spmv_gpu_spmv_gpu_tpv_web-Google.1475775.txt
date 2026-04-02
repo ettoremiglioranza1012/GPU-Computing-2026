@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpv  MATRIX: web-Google.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/web-Google/web-Google.mtx
+Rows: 916428  Cols: 916428  NNZ: 5105039
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpv |        0.000501 |        0.000501 |
+Effective bandwidth: 189.1087 GB/s
+GFLOPS:              20.3826

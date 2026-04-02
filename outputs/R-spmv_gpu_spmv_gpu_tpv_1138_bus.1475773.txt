@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpv  MATRIX: 1138_bus.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/1138_bus/1138_bus.mtx
+Rows: 1138  Cols: 1138  NNZ: 4054
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpv |        0.000008 |        0.000008 |
+Effective bandwidth: 10.7593 GB/s
+GFLOPS:              1.0501

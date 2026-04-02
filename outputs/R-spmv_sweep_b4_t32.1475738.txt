@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride_b4_t32  MATRIX: bcsstk17.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/bcsstk17/bcsstk17.mtx
+Rows: 10974  Cols: 10974  NNZ: 428650
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.001353 |        0.001353 |
+Effective bandwidth: 5.1995 GB/s
+GFLOPS:              0.6337

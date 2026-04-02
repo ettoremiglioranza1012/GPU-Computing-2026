@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: bcsstk17.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/bcsstk17/bcsstk17.mtx
+Rows: 10974  Cols: 10974  NNZ: 428650
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.000076 |        0.000076 |
+Effective bandwidth: 93.1280 GB/s
+GFLOPS:              11.3504

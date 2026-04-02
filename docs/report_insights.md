@@ -175,31 +175,31 @@ A per-element relative tolerance degenerates to an unworkably tight floor for th
 
 ---
 
-### 1.8 CPU Results (job 1475030, cluster Baldo, Intel Xeon Silver 4309Y)
+### 1.8 CPU Results (cluster Baldo, Intel Xeon Silver 4309Y)
 
 #### Effective Bandwidth (GB/s)
 
 | Matrix | naive | opt | opt vs naive |
 |--------|-------|-----|--------------|
-| `1138_bus` | 20.8 | 17.7 | −15% (regression — too few NNZ/row) |
-| `bcsstk17` | 6.4 | 38.0 | **+495%** (strong gain — 39 NNZ/row) |
-| `web-Google` | 8.1 | 6.8 | −16% (regression — too few NNZ/row) |
+| `1138_bus` | 20.07 | 19.78 | −1.4% (noise — too few NNZ/row) |
+| `bcsstk17` | 9.89 | 27.84 | **+2.8x** (strong gain — 39 NNZ/row) |
+| `web-Google` | 5.23 | 4.76 | −9% (regression — too few NNZ/row) |
 
 #### Arithmetic Mean Time (s)
 
 | Matrix | naive | opt |
 |--------|-------|-----|
-| `1138_bus` | 0.000004 | 0.000005 |
-| `bcsstk17` | 0.001106 | 0.000185 |
-| `web-Google` | 0.011699 | 0.013900 |
+| `1138_bus` | 0.000004 | 0.000004 |
+| `bcsstk17` | 0.000711 | 0.000253 |
+| `web-Google` | 0.018121 | 0.019885 |
 
 #### GFLOPS
 
 | Matrix | naive | opt |
 |--------|-------|-----|
-| `1138_bus` | 2.03 | 1.73 |
-| `bcsstk17` | 0.78 | 4.63 |
-| `web-Google` | 0.87 | 0.73 |
+| `1138_bus` | 1.96 | 1.93 |
+| `bcsstk17` | 1.21 | 3.39 |
+| `web-Google` | 0.56 | 0.51 |
 
 ---
 
@@ -209,7 +209,7 @@ A per-element relative tolerance degenerates to an unworkably tight floor for th
    and `web-Google` (5.6 NNZ/row) because the 4-way unrolled loop body almost never executes
    — most rows fall through to the scalar tail, paying overhead with no benefit.
 
-2. **The opt kernel excels on dense rows.** `bcsstk17` (39 NNZ/row) sees a ~6× speedup in
+2. **The opt kernel excels on dense rows.** `bcsstk17` (39 NNZ/row) sees a ~2.8× speedup in
    bandwidth. The 4-accumulator ILP and single-write-per-row both contribute.
 
 3. **Matrix structure dominates performance.** `web-Google` has 126× more NNZ than `1138_bus`
@@ -412,26 +412,85 @@ Same three matrices as CPU side:
 | Matrix | Rows | NNZ | Avg NNZ/row | Expected GPU behaviour |
 |--------|------|-----|-------------|------------------------|
 | `1138_bus` | 1,138 | 4,054 | 3.6 | Very small — launch overhead dominates; all kernels slow |
-| `bcsstk17` | 10,974 | 428,650 | 39.1 | Moderate size, uniform rows — TPR benefits; TPV contention on long rows |
+| `bcsstk17` | 10,974 | 428,650 | 39.1 | Moderate size, uniform rows — TPV wins; TPR underutilises GPU (only 11K threads) |
 | `web-Google` | 916,428 | 5,105,039 | 5.6 | Large, power-law — TPR diverges badly; TPV/stride benefit from parallelism |
 
 ---
 
-### 2.5 GPU Results
+### 2.5 GPU Results (cluster Baldo, NVIDIA A30, sm_80)
 
-*(Populate after cluster runs — mirror §1.8 table structure)*
+#### Effective Bandwidth (GB/s)
 
-| Matrix | tpv BW | tpr BW | stride BW |
-|--------|--------|--------|-----------|
-| `1138_bus` | — | — | — |
-| `bcsstk17` | — | — | — |
-| `web-Google` | — | — | — |
+| Matrix | tpv | tpr | stride | best kernel |
+|--------|-----|-----|--------|-------------|
+| `1138_bus` | 10.76 | 5.57 | 8.97 | tpv (all below CPU) |
+| `bcsstk17` | **158.57** | 93.13 | 140.30 | tpv |
+| `web-Google` | **189.11** | 173.59 | 166.30 | tpv |
+
+#### Arithmetic Mean Time (s)
+
+| Matrix | tpv | tpr | stride |
+|--------|-----|-----|--------|
+| `1138_bus` | 0.000008 | 0.000015 | 0.000009 |
+| `bcsstk17` | 0.000044 | 0.000076 | 0.000050 |
+| `web-Google` | 0.000501 | 0.000546 | 0.000570 |
+
+#### GFLOPS
+
+| Matrix | tpv | tpr | stride |
+|--------|-----|-----|--------|
+| `1138_bus` | 1.05 | 0.54 | 0.88 |
+| `bcsstk17` | 19.33 | 11.35 | 17.10 |
+| `web-Google` | 20.38 | 18.71 | 17.92 |
+
+#### GPU Speedup over CPU Naive
+
+| Matrix | tpv | tpr | stride |
+|--------|-----|-----|--------|
+| `1138_bus` | 0.5× | 0.3× | 0.4× |
+| `bcsstk17` | **16.0×** | 9.4× | 14.2× |
+| `web-Google` | **36.2×** | 33.2× | 31.8× |
 
 ---
 
 ### 2.6 Key GPU Observations
 
-*(Populate after cluster runs)*
+1. **1138_bus: GPU is slower than CPU (0.3–0.5×).** Only 4,054 NNZ — GPU kernel launch
+   overhead and thread scheduling cost dominates the actual arithmetic. The matrix fits
+   entirely in CPU L1/L2 cache; the sequential loop has near-zero latency. This is the
+   expected regime where GPUs lose.
+
+2. **TPV wins on all medium and large matrices.** Counterintuitive because `atomicAdd` is
+   often cited as a bottleneck, but:
+   - On `bcsstk17` (39 NNZ/row, uniform): contention per output element is low and bounded;
+     TPV launches ~1.7M threads over 428K NNZ → full occupancy
+   - On `web-Google` (5.6 NNZ/row avg, power-law): most rows are short so few threads
+     collide per `atomicAdd`; the hub rows with many NNZ create contention but are a small
+     fraction of total rows
+
+3. **TPR underperforms on bcsstk17 (93 vs 158 GB/s).** Grid size = ceil(10974/256) = 43
+   blocks — only 43 × 256 = 11,008 threads for 428K NNZ. The GPU is severely
+   underutilised; most SMs are idle. Binary search overhead per thread adds to this.
+
+4. **TPR is competitive on web-Google (173 vs 189 GB/s).** Grid size = ceil(916428/256)
+   = 3,580 blocks → 916K threads, one per row. Despite the power-law distribution, the
+   majority of rows have ≤10 NNZ so most threads finish in 1–2 iterations. The load
+   imbalance from hub rows hurts warp efficiency but does not dominate throughput.
+
+5. **Stride is middle ground across all matrices.** Fixed grid (128 blocks × 1024 threads
+   = 131K threads from sweep results) loops over NNZ. For large matrices each thread
+   processes ~39 NNZ (web-Google: 5M / 131K), amortising launch cost but adding loop
+   overhead vs TPV's direct 1:1 mapping. Never the best, never catastrophic.
+
+6. **GPU bandwidth of 158–189 GB/s on structured/large matrices.** The A30 peaks at
+   ~933 GB/s; we achieve ~17–20% of peak. This is expected for COO SpMV: random reads
+   of `x[Acols[i]]` scatter memory traffic across cache lines. `__ldg()` partially
+   mitigates this via the read-only cache path but cannot recover the full bandwidth gap.
+
+7. **The contrast we need for the report (structured vs unstructured) is not yet visible.**
+   Both `bcsstk17` and `web-Google` show similar GPU bandwidth (158 vs 189 GB/s). A truly
+   large diagonal/FEM matrix (10M+ NNZ, high cache reuse on x) would push bandwidth toward
+   400–600 GB/s. This is the motivation for adding large matrices in the next phase.
 
 ---
 

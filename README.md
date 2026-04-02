@@ -56,7 +56,8 @@ bash scripts/sweep_gpu.sh
 ```
 
 Submits 35 independent SLURM jobs (7 block counts × 5 thread counts) to `edu-short`,
-one job per configuration. Each job runs `spmv_gpu_stride` on `bcsstk17`.
+one job per configuration. Each job runs `spmv_gpu_stride` on `Rucci1`
+(7.8M NNZ, semi-structured — best sweep target in the Chu et al. dataset).
 Monitor with:
 
 ```bash
@@ -87,7 +88,9 @@ EOF
 sbatch scripts/batch_cpu.sh
 ```
 
-Runs both CPU kernels across all matrices. Output: `outputs/R-spmv_cpu.<jobid>.txt`.
+Runs both CPU kernels across the CPU-safe allowlist (4 matrices with NNZ ≤ 10M:
+`webbase-1M`, `Rucci1`, `ASIC_680ks`, `boyd2`). Large matrices are GPU-only.
+Output: `outputs/R-spmv_cpu.<jobid>.txt`.
 
 ### 6. Run GPU benchmarks
 
@@ -95,7 +98,7 @@ Runs both CPU kernels across all matrices. Output: `outputs/R-spmv_cpu.<jobid>.t
 bash scripts/batch_gpu.sh
 ```
 
-Submits one SLURM job per (kernel, matrix) pair — 3 kernels × number of matrices.
+Submits one SLURM job per (kernel, matrix) pair — 3 kernels × 10 matrices = 30 jobs.
 The stride kernel automatically uses the best config from step 4 if
 `scripts/best_gpu_config.sh` exists, otherwise falls back to built-in defaults.
 Output files: `outputs/R-spmv_gpu_<kernel>_<matrix>.<jobid>.txt`.

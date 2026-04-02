@@ -5,15 +5,15 @@
 #   bash scripts/run_cpu.sh <binary_name> <matrix_path>
 #
 # Example:
-#   bash scripts/run_cpu.sh spmv_csr_naive Data/1138_bus/1138_bus.mtx
-#   bash scripts/run_cpu.sh spmv_csr_opt   Data/bcsstk17/bcsstk17.mtx
+#   bash scripts/run_cpu.sh spmv_coo_naive Data/boyd2/boyd2.mtx
+#   bash scripts/run_cpu.sh spmv_coo_opt   Data/Rucci1/Rucci1.mtx
 
 set -euo pipefail
 
 if [ $# -ne 2 ]; then
     echo "Usage: $0 <binary_name> <matrix_path>"
-    echo "  binary_name:  name inside bin/CPU/ (e.g. spmv_csr_naive)"
-    echo "  matrix_path:  path to .mtx file    (e.g. Data/1138_bus/1138_bus.mtx)"
+    echo "  binary_name:  name inside bin/CPU/ (e.g. spmv_coo_naive)"
+    echo "  matrix_path:  path to .mtx file    (e.g. Data/boyd2/boyd2.mtx)"
     exit 1
 fi
 

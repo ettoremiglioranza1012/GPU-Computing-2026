@@ -8,7 +8,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-KERNELS=(spmv_csr_naive spmv_csr_opt)
+KERNELS=(spmv_coo_naive spmv_coo_opt)
 
 # Collect all .mtx files under Data/
 mapfile -t MATRICES < <(find "$REPO_DIR/Data" -name "*.mtx" 2>/dev/null | sort)

@@ -29,10 +29,11 @@ if [ ! -f "$BIN" ]; then
 fi
 
 # ── Sweep target matrix ───────────────────────────────────────────────────────
-# bcsstk17: structured stiffness matrix, 428K NNZ — largest structured matrix
-# in the current development dataset. Replace with a larger diagonal matrix
-# once download_data.sh is extended (see from_development_to_large_scale_matrices.md).
-SWEEP_MATRIX=$(find "$REPO_DIR/Data" -name "bcsstk17.mtx" | head -1)
+# Rucci1: semi-structured land-survey matrix, 7.8M NNZ.
+# Good sweep target: large enough to saturate GPU bandwidth and structured enough
+# to produce measurable differences across block/thread configurations.
+# Matches the Chu et al. HPDC '23 dataset (required reference [2]).
+SWEEP_MATRIX=$(find "$REPO_DIR/Data" -name "Rucci1.mtx" | head -1)
 
 if [ -z "$SWEEP_MATRIX" ]; then
     echo "[error] sweep matrix not found in Data/. Run scripts/download_data.sh first."

@@ -71,11 +71,10 @@ uv run scripts/plot_sweep.py results_tables/sweep.csv
 ```
 
 `plot_sweep.py` prints the best config (highest bandwidth). Write it to
-`assets/best_gpu_config.sh` so that `batch_gpu.sh` picks it up automatically:
+`scripts/best_gpu_config.sh` so that `batch_gpu.sh` picks it up automatically:
 
 ```bash
-mkdir -p assets
-cat > assets/best_gpu_config.sh << EOF
+cat > scripts/best_gpu_config.sh << EOF
 # Auto-generated — do not edit by hand.
 BEST_BLOCKS=<N>
 BEST_THREADS=<M>
@@ -98,13 +97,13 @@ bash scripts/batch_gpu.sh
 
 Submits one SLURM job per (kernel, matrix) pair — 3 kernels × number of matrices.
 The stride kernel automatically uses the best config from step 4 if
-`assets/best_gpu_config.sh` exists, otherwise falls back to built-in defaults.
+`scripts/best_gpu_config.sh` exists, otherwise falls back to built-in defaults.
 Output files: `outputs/R-spmv_gpu_<kernel>_<matrix>.<jobid>.txt`.
 
 ### 7. Push results to remote
 
 ```bash
-git add outputs/ assets/best_gpu_config.sh
+git add outputs/ scripts/best_gpu_config.sh
 git commit -m "add benchmark results"
 git push
 ```

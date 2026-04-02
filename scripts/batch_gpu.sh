@@ -16,12 +16,12 @@ KERNELS=(spmv_gpu_tpv spmv_gpu_tpr spmv_gpu_stride)
 
 # ── Best config for spmv_gpu_stride (auto-loaded from sweep results) ──────────
 # Run scripts/sweep_gpu.sh → parse_results.py → plot_sweep.py first.
-# Then write assets/best_gpu_config.sh with BEST_BLOCKS and BEST_THREADS.
+# Then write scripts/best_gpu_config.sh with BEST_BLOCKS and BEST_THREADS.
 # If the file does not exist, the stride kernel falls back to its built-in
 # defaults (256 threads, auto grid).
 BEST_BLOCKS=""
 BEST_THREADS=""
-CFG_FILE="$REPO_DIR/assets/best_gpu_config.sh"
+CFG_FILE="$REPO_DIR/scripts/best_gpu_config.sh"
 if [ -f "$CFG_FILE" ]; then
     # shellcheck source=/dev/null
     source "$CFG_FILE"

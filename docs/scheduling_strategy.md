@@ -120,11 +120,11 @@ The `KERNEL: ... MATRIX: ...` banner inside each output file is emitted by the
 ## Post-sweep best-config step
 
 The original monolithic `sweep_gpu.sh` tracked the best bandwidth inline during
-its sequential loop and wrote `assets/best_gpu_config.sh` at the end. With async
+its sequential loop and wrote `scripts/best_gpu_config.sh` at the end. With async
 jobs this is no longer possible — results arrive at different times.
 
 The best config is now determined after all sweep jobs complete, by running
 `parse_results.py` + `plot_sweep.py`. `plot_sweep.py` prints the winning
-(blocks, threads) pair; the user writes it to `assets/best_gpu_config.sh`
+(blocks, threads) pair; the user writes it to `scripts/best_gpu_config.sh`
 manually. `batch_gpu.sh` sources this file automatically if it exists, and falls
 back to the stride kernel's built-in defaults if it does not.

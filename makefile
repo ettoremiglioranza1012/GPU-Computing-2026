@@ -85,7 +85,7 @@ clean_outputs:
 	rm -f $(BATCH_OUT)/*.out $(BATCH_OUT)/*.err $(BATCH_OUT)/*.txt
 
 clean_results:
-	rm -f $(RESULTS)/*.csv assets/*.png assets/best_gpu_config.sh
+	rm -f $(RESULTS)/*.csv assets/*.png $(SCRIPTS)/best_gpu_config.sh
 
 clean: clean_bin clean_outputs clean_results
 	rm -rf $(DATA_DIR)

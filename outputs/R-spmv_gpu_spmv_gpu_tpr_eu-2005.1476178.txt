@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: eu-2005.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/eu-2005/eu-2005.mtx
+Rows: 862664  Cols: 862664  NNZ: 19235140
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.001696 |        0.001696 |
+Effective bandwidth: 140.1974 GB/s
+GFLOPS:              22.6879

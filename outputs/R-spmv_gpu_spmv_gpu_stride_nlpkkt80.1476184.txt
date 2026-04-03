@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: nlpkkt80.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/nlpkkt80/nlpkkt80.mtx
+Rows: 1062400  Cols: 1062400  NNZ: 28704672
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000762 |        0.000762 |
+Effective bandwidth: 463.3352 GB/s
+GFLOPS:              75.3630

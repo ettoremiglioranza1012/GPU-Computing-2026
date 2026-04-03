@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: rajat31.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/rajat31/rajat31.mtx
+Rows: 4690002  Cols: 4690002  NNZ: 20316253
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.000728 |        0.000728 |
+Effective bandwidth: 386.3043 GB/s
+GFLOPS:              55.7969

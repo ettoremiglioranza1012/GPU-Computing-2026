@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: webbase-1M.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/webbase-1M/webbase-1M.mtx
+Rows: 1000005  Cols: 1000005  NNZ: 3105536
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.001137 |        0.001137 |
+Effective bandwidth: 39.8266 GB/s
+GFLOPS:              5.4647

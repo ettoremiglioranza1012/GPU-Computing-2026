@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride_b32_t512  MATRIX: Rucci1.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/Rucci1/Rucci1.mtx
+Rows: 1977885  Cols: 109900  NNZ: 7791168
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000588 |        0.000588 |
+Effective bandwidth: 173.2419 GB/s
+GFLOPS:              26.5061

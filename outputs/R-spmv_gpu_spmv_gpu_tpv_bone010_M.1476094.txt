@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpv  MATRIX: bone010_M.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/bone010/bone010_M.mtx
+Rows: 986703  Cols: 986703  NNZ: 23888775
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpv |        0.000588 |        0.000588 |
+Effective bandwidth: 500.7870 GB/s
+GFLOPS:              81.2278

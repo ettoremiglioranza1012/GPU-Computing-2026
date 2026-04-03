@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: eu-2005.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/eu-2005/eu-2005.mtx
+Rows: 862664  Cols: 862664  NNZ: 19235140
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000490 |        0.000490 |
+Effective bandwidth: 485.4990 GB/s
+GFLOPS:              78.5674

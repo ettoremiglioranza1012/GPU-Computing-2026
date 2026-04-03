@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: ldoor.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ldoor/ldoor.mtx
+Rows: 952203  Cols: 952203  NNZ: 46522475
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.004185 |        0.004180 |
+Effective bandwidth: 135.2297 GB/s
+GFLOPS:              22.2349

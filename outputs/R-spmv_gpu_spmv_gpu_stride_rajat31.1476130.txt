@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: rajat31.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/rajat31/rajat31.mtx
+Rows: 4690002  Cols: 4690002  NNZ: 20316253
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000413 |        0.000413 |
+Effective bandwidth: 681.4908 GB/s
+GFLOPS:              98.4330

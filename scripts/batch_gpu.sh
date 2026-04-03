@@ -30,7 +30,31 @@ else
     echo "[config] no best_gpu_config.sh found — stride kernel uses built-in defaults"
 fi
 
-mapfile -t MATRICES < <(find "$REPO_DIR/Data" -name "*.mtx" | sort)
+# Explicit allowlist — matches the 10 intended matrices from download_data.sh.
+# Do NOT use find here: bone010's tarball contains auxiliary files
+# (bone010_B.mtx, bone010_C.mtx, bone010_M.mtx) that are not real matrices.
+MATRIX_NAMES=(
+    bone010
+    ldoor
+    Rucci1
+    nlpkkt80
+    ASIC_680ks
+    rajat31
+    boyd2
+    eu-2005
+    webbase-1M
+    hollywood-2009
+)
+
+MATRICES=()
+for name in "${MATRIX_NAMES[@]}"; do
+    mtx="$REPO_DIR/Data/${name}/${name}.mtx"
+    if [ -f "$mtx" ]; then
+        MATRICES+=("$mtx")
+    else
+        echo "[warn] matrix not found, skipping: $mtx"
+    fi
+done
 
 if [ ${#MATRICES[@]} -eq 0 ]; then
     echo "No matrices found in Data/. Run scripts/download_data.sh first."

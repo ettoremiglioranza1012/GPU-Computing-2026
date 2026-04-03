@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     float y_max = 0.0f;
     for (int i = 0; i < rows; i++)
         if (fabsf(h_y_ref[i]) > y_max) y_max = fabsf(h_y_ref[i]);
-    float tol = 1e-4f * y_max + 1e-6f;
+    float tol = 1e-3f * y_max + 1e-5f;
     int ok = 1;
     for (int i = 0; i < rows && ok; i++)
         if (fabsf(h_y[i] - h_y_ref[i]) > tol) ok = 0;

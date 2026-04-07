@@ -71,6 +71,12 @@ $(CPU_BIN)/%: $(CPU_DIR)/%.c $(TIMER_LIB_OBJ)
 # =============================================================================
 # GPU binaries  (requires: module load CUDA/12.1.1 before running make gpu)
 # =============================================================================
+
+# cuSPARSE kernel needs -lcusparse; specific rule takes priority over the pattern.
+$(GPU_BIN)/spmv_cusparse.exec: $(GPU_DIR)/spmv_cusparse.cu
+	@mkdir -p $(GPU_BIN)
+	$(NVCC) $(GPU_ARCH) $(GPU_FLAGS) -I$(TIMER_INC) -I$(INC_DIR) -o $@ $< -lcusparse
+
 $(GPU_BIN)/%.exec: $(GPU_DIR)/%.cu
 	@mkdir -p $(GPU_BIN)
 	$(NVCC) $(GPU_ARCH) $(GPU_FLAGS) -I$(TIMER_INC) -I$(INC_DIR) -o $@ $<

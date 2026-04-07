@@ -12,7 +12,7 @@
 #   uv run scripts/plot_results.py results_tables/results.csv
 
 REPO_DIR="${REPO_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-KERNELS=(spmv_gpu_tpv spmv_gpu_tpr spmv_gpu_stride)
+KERNELS=(spmv_gpu_tpv spmv_gpu_tpr spmv_gpu_stride spmv_gpu_warp spmv_cusparse)
 
 # ── Best config for spmv_gpu_stride (auto-loaded from sweep results) ──────────
 # Run scripts/sweep_gpu.sh → parse_results.py → plot_sweep.py first.

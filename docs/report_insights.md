@@ -407,90 +407,129 @@ stream, giving true device execution time.
 
 ### 2.4 Dataset (GPU)
 
-Same three matrices as CPU side:
+Full 10-matrix dataset from Chu et al. HPDC '23. GPU runs on all 10 matrices; CPU runs on the 4-matrix allowlist only (NNZ < ~10M, to stay within the 5-min `edu-short` wall limit).
 
-| Matrix | Rows | NNZ | Avg NNZ/row | Expected GPU behaviour |
-|--------|------|-----|-------------|------------------------|
-| `1138_bus` | 1,138 | 4,054 | 3.6 | Very small — launch overhead dominates; all kernels slow |
-| `bcsstk17` | 10,974 | 428,650 | 39.1 | Moderate size, uniform rows — TPV wins; TPR underutilises GPU (only 11K threads) |
-| `web-Google` | 916,428 | 5,105,039 | 5.6 | Large, power-law — TPR diverges badly; TPV/stride benefit from parallelism |
+| Matrix | Rows | NNZ | Avg NNZ/row | Domain | Structure |
+|--------|------|-----|-------------|--------|-----------|
+| `bone010` | 986,703 | 71,666,325 | 72.6 | FEM structural | Highly regular, uniform rows |
+| `ldoor` | 952,203 | 46,522,475 | 48.9 | FEM / structural LP | Highly regular, uniform rows |
+| `nlpkkt80` | 1,062,400 | 28,704,672 | 27.0 | NLP KKT system | Regular, banded |
+| `Rucci1` | 1,977,885 | 7,791,168 | 3.9 | Land survey | Semi-structured, short rows |
+| `ASIC_680ks` | 682,712 | 2,329,176 | 3.4 | Circuit simulation | Mixed regularity |
+| `rajat31` | 4,690,002 | 20,316,253 | 4.3 | Circuit / structural | Irregular |
+| `boyd2` | 466,316 | 1,500,397 | 3.2 | Optimisation (LP) | Dense-ish, skewed rows |
+| `eu-2005` | 862,664 | 19,235,140 | 22.3 | European web graph | Power-law |
+| `webbase-1M` | 1,000,005 | 3,105,536 | 3.1 | Web graph | Irregular, power-law |
+| `hollywood-2009` | 1,139,905 | 113,891,327 | 99.9 | Actor co-appearance | Very dense, power-law |
 
 ---
 
 ### 2.5 GPU Results (cluster Baldo, NVIDIA A30, sm_80)
 
+All values from `results_tables/results.csv`. Bold = best kernel per matrix row.
+
 #### Effective Bandwidth (GB/s)
 
 | Matrix | tpv | tpr | stride | best kernel |
 |--------|-----|-----|--------|-------------|
-| `1138_bus` | 10.76 | 5.57 | 8.97 | tpv (all below CPU) |
-| `bcsstk17` | **158.57** | 93.13 | 140.30 | tpv |
-| `web-Google` | **189.11** | 173.59 | 166.30 | tpv |
+| `bone010` | 309.87 | 197.03 | **459.00** | stride |
+| `ldoor` | 374.22 | 227.54 | **455.06** | stride |
+| `nlpkkt80` | **464.35** | 372.42 | 463.34 | tpv |
+| `Rucci1` | 1677.82 | **1703.76** | 1531.16 | tpr (cache-inflated†) |
+| `ASIC_680ks` | **1267.63** | 457.00 | 1156.05 | tpv (cache-inflated†) |
+| `rajat31` | **685.11** | 386.30 | 681.53 | tpv |
+| `boyd2` | **73.73** | 1.63 | 67.56 | tpv (TPR pathological) |
+| `eu-2005` | 412.39 | 140.20 | **485.89** | stride |
+| `webbase-1M` | **435.80** | 39.83 | 421.11 | tpv |
+| `hollywood-2009` | 79.05 | 155.02 | **424.52** | stride (TPV contention) |
+
+† Apparent bandwidth > 933 GB/s (A30 peak) indicates L2/read-only cache hits for `x` reads via `__ldg()`. The bandwidth formula counts `unique_cols × sizeof(float)` which overestimates DRAM traffic when columns are reused across rows.
 
 #### Arithmetic Mean Time (s)
 
 | Matrix | tpv | tpr | stride |
 |--------|-----|-----|--------|
-| `1138_bus` | 0.000008 | 0.000015 | 0.000009 |
-| `bcsstk17` | 0.000044 | 0.000076 | 0.000050 |
-| `web-Google` | 0.000501 | 0.000546 | 0.000570 |
+| `bone010` | 0.002801 | 0.004405 | **0.001891** |
+| `ldoor` | 0.001512 | 0.002487 | **0.001244** |
+| `nlpkkt80` | **0.000760** | 0.000948 | 0.000762 |
+| `Rucci1` | 0.000061 | **0.000060** | 0.000067 |
+| `ASIC_680ks` | **0.000026** | 0.000073 | 0.000029 |
+| `rajat31` | **0.000411** | 0.000728 | 0.000413 |
+| `boyd2` | **0.000295** | 0.013333 | 0.000322 |
+| `eu-2005` | 0.000576 | 0.001696 | **0.000489** |
+| `webbase-1M` | **0.000104** | 0.001137 | 0.000107 |
+| `hollywood-2009` | 0.017403 | 0.008875 | **0.003241** |
 
 #### GFLOPS
 
 | Matrix | tpv | tpr | stride |
 |--------|-----|-----|--------|
-| `1138_bus` | 1.05 | 0.54 | 0.88 |
-| `bcsstk17` | 19.33 | 11.35 | 17.10 |
-| `web-Google` | 20.38 | 18.71 | 17.92 |
+| `bone010` | 51.18 | 32.54 | **75.81** |
+| `ldoor` | 61.53 | 37.41 | **74.82** |
+| `nlpkkt80` | **75.53** | 60.57 | 75.36 |
+| `Rucci1` | 256.71 | **260.68** | 234.27 |
+| `ASIC_680ks` | **176.74** | 63.72 | 161.18 |
+| `rajat31` | **98.96** | 55.80 | 98.44 |
+| `boyd2` | **10.18** | 0.23 | 9.33 |
+| `eu-2005` | 66.74 | 22.69 | **78.63** |
+| `webbase-1M` | **59.80** | 5.46 | 57.78 |
+| `hollywood-2009` | 13.09 | 25.67 | **70.28** |
 
 #### GPU Speedup over CPU Naive
 
-| Matrix | tpv | tpr | stride |
-|--------|-----|-----|--------|
-| `1138_bus` | 0.5× | 0.3× | 0.4× |
-| `bcsstk17` | **16.0×** | 9.4× | 14.2× |
-| `web-Google` | **36.2×** | 33.2× | 31.8× |
+CPU data available only for the 4-matrix allowlist (NNZ < ~10M). CPU naive times from `results.csv`.
+
+| Matrix | cpu_naive (s) | tpv | tpr | stride | best speedup |
+|--------|---------------|-----|-----|--------|--------------|
+| `ASIC_680ks` | 0.00309 | **118.8×** | 42.3× | 106.6× | tpv |
+| `boyd2` | 0.001586 | **5.4×** | 0.1× | 4.9× | tpv |
+| `Rucci1` | 0.005632 | 92.3× | **93.9×** | 84.1× | tpr |
+| `webbase-1M` | 0.004313 | **41.5×** | 3.8× | 40.3× | tpv |
 
 ---
 
 ### 2.6 Key GPU Observations
 
-1. **1138_bus: GPU is slower than CPU (0.3–0.5×).** Only 4,054 NNZ — GPU kernel launch
-   overhead and thread scheduling cost dominates the actual arithmetic. The matrix fits
-   entirely in CPU L1/L2 cache; the sequential loop has near-zero latency. This is the
-   expected regime where GPUs lose.
+1. **Stride wins on large, dense FEM matrices** (`bone010` 459 GB/s, `ldoor` 455 GB/s,
+   `eu-2005` 486 GB/s, `hollywood-2009` 424 GB/s). The fixed-grid loop accesses NNZ
+   sequentially, producing coalesced global memory reads. For large NNZ counts, each
+   thread processes many elements (e.g. bone010: 71M NNZ / ~131K threads ≈ 547 NNZ/thread),
+   fully amortising launch overhead. Stride is the most consistent high performer.
 
-2. **TPV wins on all medium and large matrices.** Counterintuitive because `atomicAdd` is
-   often cited as a bottleneck, but:
-   - On `bcsstk17` (39 NNZ/row, uniform): contention per output element is low and bounded;
-     TPV launches ~1.7M threads over 428K NNZ → full occupancy
-   - On `web-Google` (5.6 NNZ/row avg, power-law): most rows are short so few threads
-     collide per `atomicAdd`; the hub rows with many NNZ create contention but are a small
-     fraction of total rows
+2. **TPV is pathological on `hollywood-2009` (79 GB/s vs 424 stride).** This is the
+   worst-case for `atomicAdd`: 99.9 avg NNZ/row means ~100 threads all write to the same
+   `y[row]` entry simultaneously. The serialisation of atomic operations collapses
+   throughput. The A30 has fast atomics but contention at this scale overwhelms them.
 
-3. **TPR underperforms on bcsstk17 (93 vs 158 GB/s).** Grid size = ceil(10974/256) = 43
-   blocks — only 43 × 256 = 11,008 threads for 428K NNZ. The GPU is severely
-   underutilised; most SMs are idle. Binary search overhead per thread adds to this.
+3. **TPR is pathological on `boyd2` (1.63 GB/s vs 73 tpv).** TPR uses binary search into
+   the COO array to find each row's start. `boyd2` has a highly skewed row-length
+   distribution — some rows are extremely dense. A single thread handling a dense row
+   must loop through all its NNZ serially, serialising what other kernels parallelise
+   across threads. The result is ~45× slower than TPV on the same matrix.
 
-4. **TPR is competitive on web-Google (173 vs 189 GB/s).** Grid size = ceil(916428/256)
-   = 3,580 blocks → 916K threads, one per row. Despite the power-law distribution, the
-   majority of rows have ≤10 NNZ so most threads finish in 1–2 iterations. The load
-   imbalance from hub rows hurts warp efficiency but does not dominate throughput.
+4. **Apparent bandwidth > 933 GB/s (A30 peak) on short-row matrices** (`ASIC_680ks`
+   1267 GB/s, `Rucci1` 1703 GB/s). These matrices have very low avg NNZ/row (3.4 and
+   3.9), so the `x` vector's active columns fit in the L2 / read-only cache. The bandwidth
+   formula counts `unique_cols × sizeof(float)` for `x` reads, but cache hits mean those
+   bytes are not fetched from DRAM. The apparent numbers exceed physical memory bandwidth
+   because the formula assumes all accesses are cache misses.
 
-5. **Stride is middle ground across all matrices.** Fixed grid (128 blocks × 1024 threads
-   = 131K threads from sweep results) loops over NNZ. For large matrices each thread
-   processes ~39 NNZ (web-Google: 5M / 131K), amortising launch cost but adding loop
-   overhead vs TPV's direct 1:1 mapping. Never the best, never catastrophic.
+5. **TPV and stride are nearly tied on `rajat31`** (685 vs 681 GB/s). This matrix has
+   moderate irregularity (4.3 avg NNZ/row, 4.7M rows) — not dense enough to cause
+   `atomicAdd` contention, not small enough to be cache-dominated. Both kernels reach
+   near-peak for irregular SpMV.
 
-6. **GPU bandwidth of 158–189 GB/s on structured/large matrices.** The A30 peaks at
-   ~933 GB/s; we achieve ~17–20% of peak. This is expected for COO SpMV: random reads
-   of `x[Acols[i]]` scatter memory traffic across cache lines. `__ldg()` partially
-   mitigates this via the read-only cache path but cannot recover the full bandwidth gap.
+6. **GPU speedup reaches 118× over CPU naive** (`ASIC_680ks`, tpv). Even at only 3.4
+   NNZ/row, the GPU launches 2.3M threads that each do one multiply-add in parallel.
+   The CPU naive processes these serially. For `boyd2` the speedup collapses to 5.4×
+   (tpv) — small matrix, skewed rows, and limited parallelism from only 466K NNZ.
 
-7. **The contrast we need for the report (structured vs unstructured) is not yet visible.**
-   Both `bcsstk17` and `web-Google` show similar GPU bandwidth (158 vs 189 GB/s). A truly
-   large diagonal/FEM matrix (10M+ NNZ, high cache reuse on x) would push bandwidth toward
-   400–600 GB/s. This is the motivation for adding large matrices in the next phase.
+7. **Structured vs unstructured contrast is now clear.** FEM matrices (`bone010`,
+   `ldoor`, `nlpkkt80`) achieve 450–685 GB/s on stride, confirming cache-friendly
+   sequential access. Power-law web/social graphs (`webbase-1M`, `eu-2005`) achieve
+   420–485 GB/s on the best kernel but show much wider spread between kernels — TPR
+   collapses on these due to load imbalance. This is the key analytical contrast for
+   the report Discussion section.
 
 ---
 

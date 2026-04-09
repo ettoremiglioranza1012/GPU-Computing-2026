@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: ldoor.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ldoor/ldoor.mtx
+Rows: 952203  Cols: 952203  NNZ: 46522475
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.010102 |        0.010102 |
+Effective bandwidth: 56.0182 GB/s
+GFLOPS:              9.2107

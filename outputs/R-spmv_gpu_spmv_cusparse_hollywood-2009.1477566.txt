@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: hollywood-2009.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.289098 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/hollywood-2009/hollywood-2009.mtx
+Rows: 1139905  Cols: 1139905  NNZ: 113891327
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.001631 |        0.001631 |
+Effective bandwidth: 567.0959 GB/s
+GFLOPS:              139.6770

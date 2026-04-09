@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_gpu_warp  MATRIX: ldoor.mtx
+========================================
+Correctness check: PASSED
+Setup (row_ptr build):  0.119552 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ldoor/ldoor.mtx
+Rows: 952203  Cols: 952203  NNZ: 46522475
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_gpu_warp |        0.000893 |        0.000893 |
+Effective bandwidth: 429.5753 GB/s
+GFLOPS:              104.1949

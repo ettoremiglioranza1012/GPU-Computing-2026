@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: eu-2005.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.051328 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/eu-2005/eu-2005.mtx
+Rows: 862664  Cols: 862664  NNZ: 19235140
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.000251 |        0.000251 |
+Effective bandwidth: 654.3610 GB/s
+GFLOPS:              153.2788

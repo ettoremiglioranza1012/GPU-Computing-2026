@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: bone010.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/bone010/bone010.mtx
+Rows: 986703  Cols: 986703  NNZ: 71666325
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.005266 |        0.005241 |
+Effective bandwidth: 164.8003 GB/s
+GFLOPS:              27.2169

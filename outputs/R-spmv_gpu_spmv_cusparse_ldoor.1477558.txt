@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: ldoor.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.120377 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ldoor/ldoor.mtx
+Rows: 952203  Cols: 952203  NNZ: 46522475
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.000557 |        0.000557 |
+Effective bandwidth: 688.4542 GB/s
+GFLOPS:              166.9868

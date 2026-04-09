@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: boyd2.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.005071 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/boyd2/boyd2.mtx
+Rows: 466316  Cols: 466316  NNZ: 1500397
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.000045 |        0.000045 |
+Effective bandwidth: 392.9240 GB/s
+GFLOPS:              66.9973

@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_gpu_warp  MATRIX: webbase-1M.mtx
+========================================
+Correctness check: PASSED
+Setup (row_ptr build):  0.011871 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/webbase-1M/webbase-1M.mtx
+Rows: 1000005  Cols: 1000005  NNZ: 3105536
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_gpu_warp |        0.000733 |        0.000733 |
+Effective bandwidth: 50.2975 GB/s
+GFLOPS:              8.4789

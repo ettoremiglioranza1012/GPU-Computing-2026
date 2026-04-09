@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: nlpkkt80.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.076061 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/nlpkkt80/nlpkkt80.mtx
+Rows: 1062400  Cols: 1062400  NNZ: 28704672
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.000367 |        0.000367 |
+Effective bandwidth: 660.5237 GB/s
+GFLOPS:              156.4455

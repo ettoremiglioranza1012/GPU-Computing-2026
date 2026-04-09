@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: rajat31.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.069331 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/rajat31/rajat31.mtx
+Rows: 4690002  Cols: 4690002  NNZ: 20316253
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.000383 |        0.000383 |
+Effective bandwidth: 571.5554 GB/s
+GFLOPS:              106.1365

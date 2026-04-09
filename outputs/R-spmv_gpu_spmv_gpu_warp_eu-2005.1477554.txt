@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_gpu_warp  MATRIX: eu-2005.mtx
+========================================
+Correctness check: PASSED
+Setup (row_ptr build):  0.051404 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/eu-2005/eu-2005.mtx
+Rows: 862664  Cols: 862664  NNZ: 19235140
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_gpu_warp |        0.000727 |        0.000727 |
+Effective bandwidth: 225.9946 GB/s
+GFLOPS:              52.9374

@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: boyd2.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/boyd2/boyd2.mtx
+Rows: 466316  Cols: 466316  NNZ: 1500397
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000582 |        0.000582 |
+Effective bandwidth: 37.3655 GB/s
+GFLOPS:              5.1587

@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_cusparse  MATRIX: bone010.mtx
+========================================
+Correctness check: PASSED
+Setup (COO->CSR):        0.182031 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/bone010/bone010.mtx
+Rows: 986703  Cols: 986703  NNZ: 71666325
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_cusparse |        0.000813 |        0.000813 |
+Effective bandwidth: 720.0082 GB/s
+GFLOPS:              176.3599

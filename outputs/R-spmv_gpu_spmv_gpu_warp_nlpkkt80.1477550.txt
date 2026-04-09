@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_gpu_warp  MATRIX: nlpkkt80.mtx
+========================================
+Correctness check: PASSED
+Setup (row_ptr build):  0.075852 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/nlpkkt80/nlpkkt80.mtx
+Rows: 1062400  Cols: 1062400  NNZ: 28704672
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_gpu_warp |        0.000840 |        0.000840 |
+Effective bandwidth: 288.5312 GB/s
+GFLOPS:              68.3388

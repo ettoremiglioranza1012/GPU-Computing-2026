@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: boyd2.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/boyd2/boyd2.mtx
+Rows: 466316  Cols: 466316  NNZ: 1500397
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.026957 |        0.026922 |
+Effective bandwidth: 0.8063 GB/s
+GFLOPS:              0.1113

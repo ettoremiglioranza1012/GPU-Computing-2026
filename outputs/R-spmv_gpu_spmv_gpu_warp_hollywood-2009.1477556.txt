@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_gpu_warp  MATRIX: hollywood-2009.mtx
+========================================
+Correctness check: PASSED
+Setup (row_ptr build):  0.288635 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/hollywood-2009/hollywood-2009.mtx
+Rows: 1139905  Cols: 1139905  NNZ: 113891327
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_gpu_warp |        0.002032 |        0.002032 |
+Effective bandwidth: 455.1492 GB/s
+GFLOPS:              112.1043

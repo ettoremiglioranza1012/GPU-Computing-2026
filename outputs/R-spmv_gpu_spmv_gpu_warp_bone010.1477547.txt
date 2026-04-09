@@ -1,0 +1,12 @@
+========================================
+KERNEL: spmv_gpu_warp  MATRIX: bone010.mtx
+========================================
+Correctness check: PASSED
+Setup (row_ptr build):  0.182172 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/bone010/bone010.mtx
+Rows: 986703  Cols: 986703  NNZ: 71666325
+               kernel |  arith mean (s) |   geom mean (s) |
+        spmv_gpu_warp |        0.001367 |        0.001367 |
+Effective bandwidth: 428.2045 GB/s
+GFLOPS:              104.8850

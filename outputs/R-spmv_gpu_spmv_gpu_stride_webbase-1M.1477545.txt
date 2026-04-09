@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: webbase-1M.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/webbase-1M/webbase-1M.mtx
+Rows: 1000005  Cols: 1000005  NNZ: 3105536
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000362 |        0.000362 |
+Effective bandwidth: 124.9238 GB/s
+GFLOPS:              17.1410

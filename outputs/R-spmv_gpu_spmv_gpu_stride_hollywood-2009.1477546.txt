@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: hollywood-2009.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/hollywood-2009/hollywood-2009.mtx
+Rows: 1139905  Cols: 1139905  NNZ: 113891327
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.007595 |        0.007576 |
+Effective bandwidth: 181.1551 GB/s
+GFLOPS:              29.9924

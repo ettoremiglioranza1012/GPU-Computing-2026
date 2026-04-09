@@ -1,0 +1,504 @@
+========================================
+KERNEL: spmv_coo_naive  MATRIX: ASIC_680ks.mtx
+========================================
+Iteration -2: 0.003710 s
+Iteration -1: 0.003366 s
+Iteration 0: 0.003250 s
+Iteration 1: 0.003181 s
+Iteration 2: 0.003141 s
+Iteration 3: 0.003136 s
+Iteration 4: 0.003128 s
+Iteration 5: 0.003124 s
+Iteration 6: 0.003125 s
+Iteration 7: 0.003126 s
+Iteration 8: 0.003115 s
+Iteration 9: 0.003128 s
+Iteration 10: 0.003124 s
+Iteration 11: 0.003112 s
+Iteration 12: 0.003123 s
+Iteration 13: 0.003126 s
+Iteration 14: 0.003120 s
+Iteration 15: 0.003117 s
+Iteration 16: 0.003118 s
+Iteration 17: 0.003117 s
+Iteration 18: 0.003126 s
+Iteration 19: 0.003124 s
+Iteration 20: 0.003120 s
+Iteration 21: 0.003112 s
+Iteration 22: 0.003123 s
+Iteration 23: 0.003117 s
+Iteration 24: 0.003120 s
+Iteration 25: 0.003126 s
+Iteration 26: 0.003132 s
+Iteration 27: 0.003125 s
+Iteration 28: 0.003115 s
+Iteration 29: 0.003108 s
+Iteration 30: 0.003113 s
+Iteration 31: 0.003116 s
+Iteration 32: 0.003123 s
+Iteration 33: 0.003121 s
+Iteration 34: 0.003147 s
+Iteration 35: 0.003136 s
+Iteration 36: 0.003149 s
+Iteration 37: 0.003129 s
+Iteration 38: 0.003136 s
+Iteration 39: 0.003133 s
+Iteration 40: 0.003135 s
+Iteration 41: 0.003122 s
+Iteration 42: 0.003119 s
+Iteration 43: 0.003123 s
+Iteration 44: 0.003125 s
+Iteration 45: 0.003134 s
+Iteration 46: 0.003132 s
+Iteration 47: 0.003113 s
+Iteration 48: 0.003115 s
+Iteration 49: 0.003124 s
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ASIC_680ks/ASIC_680ks.mtx
+Rows: 682712  Cols: 682712  NNZ: 2329176
+               kernel |  arith mean (s) |   geom mean (s) |
+       spmv_coo_naive |        0.003128 |        0.003128 |
+Effective bandwidth: 10.6813 GB/s
+GFLOPS:              1.4892
+========================================
+KERNEL: spmv_coo_naive  MATRIX: boyd2.mtx
+========================================
+Iteration -2: 0.001589 s
+Iteration -1: 0.001588 s
+Iteration 0: 0.001593 s
+Iteration 1: 0.001596 s
+Iteration 2: 0.001584 s
+Iteration 3: 0.001589 s
+Iteration 4: 0.001590 s
+Iteration 5: 0.001583 s
+Iteration 6: 0.001592 s
+Iteration 7: 0.001585 s
+Iteration 8: 0.001590 s
+Iteration 9: 0.001586 s
+Iteration 10: 0.001583 s
+Iteration 11: 0.001586 s
+Iteration 12: 0.001581 s
+Iteration 13: 0.001586 s
+Iteration 14: 0.001587 s
+Iteration 15: 0.001581 s
+Iteration 16: 0.001588 s
+Iteration 17: 0.001583 s
+Iteration 18: 0.001586 s
+Iteration 19: 0.001586 s
+Iteration 20: 0.001582 s
+Iteration 21: 0.001587 s
+Iteration 22: 0.001584 s
+Iteration 23: 0.001586 s
+Iteration 24: 0.001588 s
+Iteration 25: 0.001582 s
+Iteration 26: 0.001586 s
+Iteration 27: 0.001583 s
+Iteration 28: 0.001587 s
+Iteration 29: 0.001586 s
+Iteration 30: 0.001582 s
+Iteration 31: 0.001586 s
+Iteration 32: 0.001584 s
+Iteration 33: 0.001586 s
+Iteration 34: 0.001586 s
+Iteration 35: 0.001582 s
+Iteration 36: 0.001588 s
+Iteration 37: 0.001582 s
+Iteration 38: 0.001590 s
+Iteration 39: 0.001587 s
+Iteration 40: 0.001584 s
+Iteration 41: 0.001588 s
+Iteration 42: 0.001581 s
+Iteration 43: 0.001585 s
+Iteration 44: 0.001585 s
+Iteration 45: 0.001583 s
+Iteration 46: 0.001586 s
+Iteration 47: 0.001582 s
+Iteration 48: 0.001584 s
+Iteration 49: 0.001587 s
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/boyd2/boyd2.mtx
+Rows: 466316  Cols: 466316  NNZ: 1500397
+               kernel |  arith mean (s) |   geom mean (s) |
+       spmv_coo_naive |        0.001586 |        0.001586 |
+Effective bandwidth: 13.7072 GB/s
+GFLOPS:              1.8924
+========================================
+KERNEL: spmv_coo_naive  MATRIX: Rucci1.mtx
+========================================
+Iteration -2: 0.005692 s
+Iteration -1: 0.005679 s
+Iteration 0: 0.005633 s
+Iteration 1: 0.005629 s
+Iteration 2: 0.005638 s
+Iteration 3: 0.005636 s
+Iteration 4: 0.005631 s
+Iteration 5: 0.005628 s
+Iteration 6: 0.005632 s
+Iteration 7: 0.005639 s
+Iteration 8: 0.005632 s
+Iteration 9: 0.005650 s
+Iteration 10: 0.005629 s
+Iteration 11: 0.005630 s
+Iteration 12: 0.005633 s
+Iteration 13: 0.005644 s
+Iteration 14: 0.005635 s
+Iteration 15: 0.005632 s
+Iteration 16: 0.005635 s
+Iteration 17: 0.005653 s
+Iteration 18: 0.005636 s
+Iteration 19: 0.005624 s
+Iteration 20: 0.005644 s
+Iteration 21: 0.005624 s
+Iteration 22: 0.005634 s
+Iteration 23: 0.005633 s
+Iteration 24: 0.005637 s
+Iteration 25: 0.005628 s
+Iteration 26: 0.005626 s
+Iteration 27: 0.005636 s
+Iteration 28: 0.005635 s
+Iteration 29: 0.005631 s
+Iteration 30: 0.005627 s
+Iteration 31: 0.005641 s
+Iteration 32: 0.005639 s
+Iteration 33: 0.005632 s
+Iteration 34: 0.005636 s
+Iteration 35: 0.005625 s
+Iteration 36: 0.005636 s
+Iteration 37: 0.005631 s
+Iteration 38: 0.005634 s
+Iteration 39: 0.005635 s
+Iteration 40: 0.005633 s
+Iteration 41: 0.005631 s
+Iteration 42: 0.005646 s
+Iteration 43: 0.005636 s
+Iteration 44: 0.005633 s
+Iteration 45: 0.005634 s
+Iteration 46: 0.005630 s
+Iteration 47: 0.005631 s
+Iteration 48: 0.005626 s
+Iteration 49: 0.005638 s
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/Rucci1/Rucci1.mtx
+Rows: 1977885  Cols: 109900  NNZ: 7791168
+               kernel |  arith mean (s) |   geom mean (s) |
+       spmv_coo_naive |        0.005634 |        0.005634 |
+Effective bandwidth: 18.0768 GB/s
+GFLOPS:              2.7658
+========================================
+KERNEL: spmv_coo_naive  MATRIX: webbase-1M.mtx
+========================================
+Iteration -2: 0.004338 s
+Iteration -1: 0.004302 s
+Iteration 0: 0.004275 s
+Iteration 1: 0.004241 s
+Iteration 2: 0.004256 s
+Iteration 3: 0.004278 s
+Iteration 4: 0.004273 s
+Iteration 5: 0.004291 s
+Iteration 6: 0.004324 s
+Iteration 7: 0.004317 s
+Iteration 8: 0.004290 s
+Iteration 9: 0.004300 s
+Iteration 10: 0.004353 s
+Iteration 11: 0.004313 s
+Iteration 12: 0.004295 s
+Iteration 13: 0.004332 s
+Iteration 14: 0.004315 s
+Iteration 15: 0.004305 s
+Iteration 16: 0.004318 s
+Iteration 17: 0.004330 s
+Iteration 18: 0.004322 s
+Iteration 19: 0.004299 s
+Iteration 20: 0.004320 s
+Iteration 21: 0.004288 s
+Iteration 22: 0.004286 s
+Iteration 23: 0.004297 s
+Iteration 24: 0.004296 s
+Iteration 25: 0.004331 s
+Iteration 26: 0.004319 s
+Iteration 27: 0.004297 s
+Iteration 28: 0.004297 s
+Iteration 29: 0.004318 s
+Iteration 30: 0.004322 s
+Iteration 31: 0.004298 s
+Iteration 32: 0.004328 s
+Iteration 33: 0.004325 s
+Iteration 34: 0.004306 s
+Iteration 35: 0.004325 s
+Iteration 36: 0.004323 s
+Iteration 37: 0.004329 s
+Iteration 38: 0.004297 s
+Iteration 39: 0.004313 s
+Iteration 40: 0.004286 s
+Iteration 41: 0.004283 s
+Iteration 42: 0.004288 s
+Iteration 43: 0.004293 s
+Iteration 44: 0.004327 s
+Iteration 45: 0.004296 s
+Iteration 46: 0.004306 s
+Iteration 47: 0.004313 s
+Iteration 48: 0.004321 s
+Iteration 49: 0.004345 s
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/webbase-1M/webbase-1M.mtx
+Rows: 1000005  Cols: 1000005  NNZ: 3105536
+               kernel |  arith mean (s) |   geom mean (s) |
+       spmv_coo_naive |        0.004306 |        0.004306 |
+Effective bandwidth: 10.5124 GB/s
+GFLOPS:              1.4424
+========================================
+KERNEL: spmv_coo_opt  MATRIX: ASIC_680ks.mtx
+========================================
+Correctness check: PASSED
+Iteration -2: 0.002740 s
+Iteration -1: 0.002669 s
+Iteration 0: 0.002633 s
+Iteration 1: 0.002578 s
+Iteration 2: 0.002564 s
+Iteration 3: 0.002562 s
+Iteration 4: 0.002646 s
+Iteration 5: 0.002659 s
+Iteration 6: 0.002573 s
+Iteration 7: 0.002569 s
+Iteration 8: 0.002555 s
+Iteration 9: 0.002605 s
+Iteration 10: 0.002609 s
+Iteration 11: 0.002562 s
+Iteration 12: 0.002561 s
+Iteration 13: 0.002552 s
+Iteration 14: 0.002595 s
+Iteration 15: 0.002615 s
+Iteration 16: 0.002595 s
+Iteration 17: 0.002579 s
+Iteration 18: 0.002575 s
+Iteration 19: 0.002648 s
+Iteration 20: 0.002683 s
+Iteration 21: 0.002611 s
+Iteration 22: 0.002574 s
+Iteration 23: 0.002568 s
+Iteration 24: 0.002557 s
+Iteration 25: 0.002553 s
+Iteration 26: 0.002560 s
+Iteration 27: 0.002599 s
+Iteration 28: 0.002615 s
+Iteration 29: 0.002685 s
+Iteration 30: 0.002582 s
+Iteration 31: 0.002602 s
+Iteration 32: 0.002567 s
+Iteration 33: 0.002564 s
+Iteration 34: 0.002559 s
+Iteration 35: 0.002562 s
+Iteration 36: 0.002653 s
+Iteration 37: 0.002629 s
+Iteration 38: 0.002579 s
+Iteration 39: 0.002562 s
+Iteration 40: 0.002558 s
+Iteration 41: 0.002613 s
+Iteration 42: 0.002598 s
+Iteration 43: 0.002560 s
+Iteration 44: 0.002562 s
+Iteration 45: 0.002549 s
+Iteration 46: 0.002597 s
+Iteration 47: 0.002611 s
+Iteration 48: 0.002598 s
+Iteration 49: 0.002568 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ASIC_680ks/ASIC_680ks.mtx
+Rows: 682712  Cols: 682712  NNZ: 2329176
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_coo_opt |        0.002590 |        0.002590 |
+Effective bandwidth: 12.8990 GB/s
+GFLOPS:              1.7984
+========================================
+KERNEL: spmv_coo_opt  MATRIX: boyd2.mtx
+========================================
+Correctness check: PASSED
+Iteration -2: 0.001310 s
+Iteration -1: 0.001431 s
+Iteration 0: 0.001316 s
+Iteration 1: 0.001300 s
+Iteration 2: 0.001271 s
+Iteration 3: 0.001371 s
+Iteration 4: 0.001294 s
+Iteration 5: 0.001340 s
+Iteration 6: 0.001347 s
+Iteration 7: 0.001341 s
+Iteration 8: 0.001360 s
+Iteration 9: 0.001281 s
+Iteration 10: 0.001375 s
+Iteration 11: 0.001297 s
+Iteration 12: 0.001275 s
+Iteration 13: 0.001272 s
+Iteration 14: 0.001313 s
+Iteration 15: 0.001336 s
+Iteration 16: 0.001298 s
+Iteration 17: 0.001373 s
+Iteration 18: 0.001355 s
+Iteration 19: 0.001405 s
+Iteration 20: 0.001427 s
+Iteration 21: 0.001331 s
+Iteration 22: 0.001368 s
+Iteration 23: 0.001308 s
+Iteration 24: 0.001299 s
+Iteration 25: 0.001274 s
+Iteration 26: 0.001335 s
+Iteration 27: 0.001305 s
+Iteration 28: 0.001314 s
+Iteration 29: 0.001374 s
+Iteration 30: 0.001361 s
+Iteration 31: 0.001412 s
+Iteration 32: 0.001382 s
+Iteration 33: 0.001327 s
+Iteration 34: 0.001378 s
+Iteration 35: 0.001334 s
+Iteration 36: 0.001274 s
+Iteration 37: 0.001285 s
+Iteration 38: 0.001300 s
+Iteration 39: 0.001611 s
+Iteration 40: 0.001397 s
+Iteration 41: 0.001336 s
+Iteration 42: 0.001280 s
+Iteration 43: 0.001275 s
+Iteration 44: 0.001351 s
+Iteration 45: 0.001366 s
+Iteration 46: 0.001293 s
+Iteration 47: 0.001377 s
+Iteration 48: 0.001284 s
+Iteration 49: 0.001438 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/boyd2/boyd2.mtx
+Rows: 466316  Cols: 466316  NNZ: 1500397
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_coo_opt |        0.001338 |        0.001337 |
+Effective bandwidth: 16.2407 GB/s
+GFLOPS:              2.2422
+========================================
+KERNEL: spmv_coo_opt  MATRIX: Rucci1.mtx
+========================================
+Correctness check: PASSED
+Iteration -2: 0.004296 s
+Iteration -1: 0.004330 s
+Iteration 0: 0.004279 s
+Iteration 1: 0.004270 s
+Iteration 2: 0.004251 s
+Iteration 3: 0.004256 s
+Iteration 4: 0.004253 s
+Iteration 5: 0.004291 s
+Iteration 6: 0.004274 s
+Iteration 7: 0.004267 s
+Iteration 8: 0.004279 s
+Iteration 9: 0.004259 s
+Iteration 10: 0.004266 s
+Iteration 11: 0.004250 s
+Iteration 12: 0.004281 s
+Iteration 13: 0.004282 s
+Iteration 14: 0.004319 s
+Iteration 15: 0.004316 s
+Iteration 16: 0.004311 s
+Iteration 17: 0.004266 s
+Iteration 18: 0.004254 s
+Iteration 19: 0.004250 s
+Iteration 20: 0.004256 s
+Iteration 21: 0.004250 s
+Iteration 22: 0.004256 s
+Iteration 23: 0.004252 s
+Iteration 24: 0.004251 s
+Iteration 25: 0.004260 s
+Iteration 26: 0.004259 s
+Iteration 27: 0.004258 s
+Iteration 28: 0.004249 s
+Iteration 29: 0.004253 s
+Iteration 30: 0.004246 s
+Iteration 31: 0.004256 s
+Iteration 32: 0.004260 s
+Iteration 33: 0.004251 s
+Iteration 34: 0.004257 s
+Iteration 35: 0.004254 s
+Iteration 36: 0.004253 s
+Iteration 37: 0.004252 s
+Iteration 38: 0.004258 s
+Iteration 39: 0.004258 s
+Iteration 40: 0.004249 s
+Iteration 41: 0.004258 s
+Iteration 42: 0.004253 s
+Iteration 43: 0.004248 s
+Iteration 44: 0.004263 s
+Iteration 45: 0.004252 s
+Iteration 46: 0.004262 s
+Iteration 47: 0.004254 s
+Iteration 48: 0.004252 s
+Iteration 49: 0.004251 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/Rucci1/Rucci1.mtx
+Rows: 1977885  Cols: 109900  NNZ: 7791168
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_coo_opt |        0.004262 |        0.004262 |
+Effective bandwidth: 23.8955 GB/s
+GFLOPS:              3.6560
+========================================
+KERNEL: spmv_coo_opt  MATRIX: webbase-1M.mtx
+========================================
+Correctness check: PASSED
+Iteration -2: 0.004064 s
+Iteration -1: 0.004039 s
+Iteration 0: 0.004012 s
+Iteration 1: 0.003980 s
+Iteration 2: 0.003996 s
+Iteration 3: 0.004019 s
+Iteration 4: 0.004021 s
+Iteration 5: 0.003994 s
+Iteration 6: 0.004007 s
+Iteration 7: 0.004043 s
+Iteration 8: 0.004011 s
+Iteration 9: 0.003999 s
+Iteration 10: 0.004020 s
+Iteration 11: 0.004032 s
+Iteration 12: 0.004003 s
+Iteration 13: 0.003999 s
+Iteration 14: 0.004040 s
+Iteration 15: 0.004008 s
+Iteration 16: 0.003995 s
+Iteration 17: 0.004030 s
+Iteration 18: 0.003992 s
+Iteration 19: 0.003981 s
+Iteration 20: 0.004004 s
+Iteration 21: 0.004001 s
+Iteration 22: 0.003985 s
+Iteration 23: 0.004016 s
+Iteration 24: 0.004025 s
+Iteration 25: 0.004014 s
+Iteration 26: 0.003999 s
+Iteration 27: 0.004011 s
+Iteration 28: 0.004045 s
+Iteration 29: 0.004026 s
+Iteration 30: 0.004030 s
+Iteration 31: 0.004046 s
+Iteration 32: 0.004023 s
+Iteration 33: 0.004008 s
+Iteration 34: 0.004019 s
+Iteration 35: 0.004038 s
+Iteration 36: 0.004003 s
+Iteration 37: 0.004000 s
+Iteration 38: 0.004027 s
+Iteration 39: 0.003994 s
+Iteration 40: 0.003984 s
+Iteration 41: 0.004002 s
+Iteration 42: 0.003993 s
+Iteration 43: 0.003999 s
+Iteration 44: 0.004033 s
+Iteration 45: 0.004026 s
+Iteration 46: 0.003996 s
+Iteration 47: 0.004000 s
+Iteration 48: 0.004027 s
+Iteration 49: 0.004025 s
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/webbase-1M/webbase-1M.mtx
+Rows: 1000005  Cols: 1000005  NNZ: 3105536
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_coo_opt |        0.004012 |        0.004012 |
+Effective bandwidth: 11.2838 GB/s
+GFLOPS:              1.5483

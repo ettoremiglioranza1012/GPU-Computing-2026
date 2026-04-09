@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_stride  MATRIX: ASIC_680ks.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/ASIC_680ks/ASIC_680ks.mtx
+Rows: 682712  Cols: 682712  NNZ: 2329176
+               kernel |  arith mean (s) |   geom mean (s) |
+      spmv_gpu_stride |        0.000127 |        0.000127 |
+Effective bandwidth: 262.2887 GB/s
+GFLOPS:              36.5689

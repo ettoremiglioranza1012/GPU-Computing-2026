@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpr  MATRIX: nlpkkt80.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/nlpkkt80/nlpkkt80.mtx
+Rows: 1062400  Cols: 1062400  NNZ: 28704672
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpr |        0.005898 |        0.005898 |
+Effective bandwidth: 59.8383 GB/s
+GFLOPS:              9.7329

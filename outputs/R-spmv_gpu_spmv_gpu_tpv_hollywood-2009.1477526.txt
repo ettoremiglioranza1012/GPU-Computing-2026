@@ -1,0 +1,11 @@
+========================================
+KERNEL: spmv_gpu_tpv  MATRIX: hollywood-2009.mtx
+========================================
+Correctness check: PASSED
+
+Matrix:              /home/ettore.miglioranza/GPU-Computing-2026/Data/hollywood-2009/hollywood-2009.mtx
+Rows: 1139905  Cols: 1139905  NNZ: 113891327
+               kernel |  arith mean (s) |   geom mean (s) |
+         spmv_gpu_tpv |        0.044915 |        0.044914 |
+Effective bandwidth: 30.6319 GB/s
+GFLOPS:              5.0715
